@@ -5,10 +5,93 @@
     xmlns:local="using:ControllerSimulation.App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
+        <StackPanel Padding="20" Background="{StaticResource SystemControlAcrylicWindowBrush}">
+            <TextBlock Text="Regelung" Style="{StaticResource BaseTextBlockStyle}" Margin="0, 0, 0, 10"/>
+            <ToggleSwitch OnContent="Aktiv" OffContent="Inaktiv" Toggled="ToggleSwitch_Toggled"/>
+            <NavigationViewItemSeparator Margin="-15,10,-15,10"/>
+            
+            <TextBlock Text="Einbeziehen" Style="{StaticResource BaseTextBlockStyle}" Margin="0, 0, 0, 10"/>
+            <CheckBox Content="P-Anteil" IsChecked="{x:Bind ViewModel.PAnteilAktiv, Mode=TwoWay}"/>
+            <CheckBox Content="I-Anteil" IsChecked="{x:Bind ViewModel.IAnteilAktiv, Mode=TwoWay}"/>
+            <CheckBox Content="D-Anteil" IsChecked="{x:Bind ViewModel.DAnteilAktiv, Mode=TwoWay}"/>
+            <NavigationViewItemSeparator Margin="-15,10,-15,10"/>
+
+            <TextBlock Text="Einstellungen" Style="{StaticResource BaseTextBlockStyle}" Margin="0, 0, 0, 10"/>
+            <muxc:NumberBox AcceptsExpression="False" Value="{x:Bind ViewModel.Fuhrungsgrosse, Mode=TwoWay}" SpinButtonPlacementMode="Inline" SmallChange="1" LargeChange="10" Margin="0,6,0,6">
+                <muxc:NumberBox.Header>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <FontIcon Glyph="&#xE9E9;" FontSize="16" Margin="0,0,8,0"/>
+                        <TextBlock Text="Führungsgrösse"/>
+                    </StackPanel>
+                </muxc:NumberBox.Header>
+            </muxc:NumberBox>
+
+            <muxc:NumberBox AcceptsExpression="False" Value="{x:Bind ViewModel.Proportionalbeiwert, Mode=TwoWay}" SpinButtonPlacementMode="Inline" SmallChange="1" LargeChange="10" Margin="0,6,0,6">
+                <muxc:NumberBox.Header>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <FontIcon Glyph="&#xEB05;" FontSize="16" Margin="0,0,8,0"/>
+                        <TextBlock Text="Proportionalbeiwert"/>
+                    </StackPanel>
+                </muxc:NumberBox.Header>
+            </muxc:NumberBox>
+
+            <muxc:NumberBox AcceptsExpression="False" Value="{x:Bind ViewModel.Nachstellzeit, Mode=TwoWay}" SpinButtonPlacementMode="Inline" SmallChange="1" LargeChange="10" Margin="0,6,0,6">
+                <muxc:NumberBox.Header>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <FontIcon Glyph="&#xED5A;" FontSize="16" Margin="0,0,8,0"/>
+                        <TextBlock Text="Nachstellzeit [s]"/>
+                    </StackPanel>
+                </muxc:NumberBox.Header>
+            </muxc:NumberBox>
+
+            <muxc:NumberBox AcceptsExpression="False" Value="{x:Bind ViewModel.Vorhaltezeit, Mode=TwoWay}" SpinButtonPlacementMode="Inline" SmallChange="1" LargeChange="10" Margin="0,6,0,6">
+                <muxc:NumberBox.Header>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <FontIcon Glyph="&#xED5A;" FontSize="16" Margin="0,0,8,0"/>
+                        <TextBlock Text="Vorhaltezeit [s]"/>
+                    </StackPanel>
+                </muxc:NumberBox.Header>
+            </muxc:NumberBox>
+
+            <muxc:NumberBox AcceptsExpression="False" Value="{x:Bind ViewModel.Abtastzeit, Mode=TwoWay}" SpinButtonPlacementMode="Inline" SmallChange="1" LargeChange="10" Margin="0,6,0,6">
+                <muxc:NumberBox.Header>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <FontIcon Glyph="&#xE81C;" FontSize="16" Margin="0,0,8,0"/>
+                        <TextBlock Text="Abtastzeit [s]"/>
+                    </StackPanel>
+                </muxc:NumberBox.Header>
+            </muxc:NumberBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Width="400">
+            <muxc:NumberBox AcceptsExpression="False" Value="{x:Bind ViewModel.Regelgrosse, Mode=TwoWay}" SpinButtonPlacementMode="Inline" SmallChange="1" LargeChange="10" Margin="0,6,0,6">
+                <muxc:NumberBox.Header>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <FontIcon Glyph="&#xE81C;" FontSize="16" Margin="0,0,8,0"/>
+                        <TextBlock Text="Regelgrösse"/>
+                    </StackPanel>
+                </muxc:NumberBox.Header>
+            </muxc:NumberBox>
+
+            <muxc:NumberBox AcceptsExpression="False" Value="{x:Bind ViewModel.Stellgrosse, Mode=OneWay}" SpinButtonPlacementMode="Inline" SmallChange="1" LargeChange="10" Margin="0,6,0,6">
+                <muxc:NumberBox.Header>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <FontIcon Glyph="&#xE81C;" FontSize="16" Margin="0,0,8,0"/>
+                        <TextBlock Text="Stellgrösse"/>
+                    </StackPanel>
+                </muxc:NumberBox.Header>
+            </muxc:NumberBox>
+        </StackPanel>
+        
     </Grid>
 </Page>

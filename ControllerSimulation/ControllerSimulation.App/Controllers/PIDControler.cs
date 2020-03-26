@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 
 namespace ControllerSimulation.App.Controllers
 {
@@ -10,9 +12,12 @@ namespace ControllerSimulation.App.Controllers
     {
         public PIDController()
         {
-            timer.Elapsed += ((object sender, System.Timers.ElapsedEventArgs e) =>
+            timer.Elapsed += (async (object sender, System.Timers.ElapsedEventArgs e) =>
             {
-                StellgrösseAnpassen();
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                {
+                    StellgrosseAnpassen();
+                });
             });
         }
 
@@ -29,7 +34,7 @@ namespace ControllerSimulation.App.Controllers
             get => _pAnteilAktiv;
             set { Set(ref _pAnteilAktiv, value); }
         }
-        private bool _pAnteilAktiv;
+        private bool _pAnteilAktiv = true;
 
 
         public bool IAnteilAktiv
@@ -37,7 +42,7 @@ namespace ControllerSimulation.App.Controllers
             get => _iAnteilAktiv;
             set { Set(ref _iAnteilAktiv, value); }
         }
-        private bool _iAnteilAktiv;
+        private bool _iAnteilAktiv = true;
 
 
         public bool DAnteilAktiv
@@ -45,29 +50,29 @@ namespace ControllerSimulation.App.Controllers
             get => _dAnteilAktiv;
             set { Set(ref _dAnteilAktiv, value); }
         }
-        private bool _dAnteilAktiv;
+        private bool _dAnteilAktiv = true;
 
 
         /// <summary>
-        /// Der Soll-Wert der Regelstrecke. <para>Abkürzung: SW</para>
+        /// Der Soll-Wert der Regelstrecke. <para>Abkurzung: SW</para>
         /// </summary>
-        public double Führungsgrösse
+        public double Fuhrungsgrosse
         {
-            get => _führungsgrösse;
-            set { Set(ref _führungsgrösse, value); }
+            get => _fuhrungsgrosse;
+            set { Set(ref _fuhrungsgrosse, value); }
         }
-        private double _führungsgrösse;
+        private double _fuhrungsgrosse;
 
 
         /// <summary>
-        /// Der momentane Ist-Wert der Regelstrecke. <para>Abkürzung: IW</para>
+        /// Der momentane Ist-Wert der Regelstrecke. <para>Abkurzung: IW</para>
         /// </summary>
-        public double Regelgrösse
+        public double Regelgrosse
         {
-            get => _regelgrösse;
-            set { Set(ref _regelgrösse, value); }
+            get => _regelgrosse;
+            set { Set(ref _regelgrosse, value); }
         }
-        private double _regelgrösse;
+        private double _regelgrosse;
 
 
         public double Proportionalbeiwert
@@ -100,10 +105,10 @@ namespace ControllerSimulation.App.Controllers
             get => _abtastzeit;
             set
             {
-                if(_abtastzeit != value && value >= 100)
+                if(_abtastzeit != value && value >= 0.1)
                 {
                     _abtastzeit = value;
-                    timer.Interval = value;
+                    timer.Interval = value * 1000;
                     OnPropertyChanged();
                 }
             }
@@ -114,75 +119,76 @@ namespace ControllerSimulation.App.Controllers
         /// <summary>
         /// 
         /// </summary>
-        public double Stellgrösse
+        public double Stellgrosse
         {
-            get => _stellgrösse;
-            private set { Set(ref _stellgrösse, value); }
+            get => _stellgrosse;
+            private set { Set(ref _stellgrosse, value); }
         }
-        private double _stellgrösse;
+        private double _stellgrosse;
 
 
         /// <summary>
-        /// Wert der vorherigen Regeldifferenz <para>Abkürzung: EK1</para>
+        /// Wert der vorherigen Regeldifferenz <para>Abkurzung: EK1</para>
         /// </summary>
         private double regeldifferenzVorher;
 
 
         /// <summary>
-        /// Summe aller Regeldiffernezen <para>Abkürzung: ESUM</para>
+        /// Summe aller Regeldiffernezen <para>Abkurzung: ESUM</para>
         /// </summary>
         private double regeldifferenzSumme;
 
         /// <summary>
-        /// Startet die asynchrone Aktualisierung der Stellgrösse anhand der eingestellten Eigenschaften.
+        /// Startet die asynchrone Aktualisierung der Stellgrosse anhand der eingestellten Eigenschaften.
         /// </summary>
         public void Start()
         {
-
+            timer.Enabled = true;
         }
 
 
         /// <summary>
-        /// Stoppt die asynchrone Aktualisierung der Stellgrösse.
+        /// Stoppt die asynchrone Aktualisierung der Stellgrosse.
         /// </summary>
         public void Stop()
         {
-
+            timer.Enabled = false;
+            Reset();
         }
 
 
         /// <summary>
-        /// Setzt den internen Cache zurück.
+        /// Setzt den internen Cache zuruck.
         /// </summary>
         public void Reset()
         {
-            Stellgrösse = 0;
+            Stellgrosse = 0;
             regeldifferenzSumme = 0;
             regeldifferenzVorher = 0;
         }
 
 
-        private void StellgrösseAnpassen()
+        private void StellgrosseAnpassen()
         {
-            double stellgrösse = 0;
-            double regeldifferenz = Proportionalbeiwert * (Führungsgrösse - Regelgrösse);
+            double stellgrosse = 0;
+            double regeldifferenz = Proportionalbeiwert * (Fuhrungsgrosse - Regelgrosse);
             regeldifferenzSumme += regeldifferenz;
             regeldifferenzVorher = regeldifferenz;
             if (PAnteilAktiv)
             {
-                stellgrösse += regeldifferenz;
+                stellgrosse += regeldifferenz;
             }
             if (IAnteilAktiv)
             {
                 double IAnteil = regeldifferenzSumme * Abtastzeit / Nachstellzeit;
-                stellgrösse += IAnteil;
+                stellgrosse += IAnteil;
             }
             if (DAnteilAktiv)
             {
                 double DAnteil = Vorhaltezeit * (regeldifferenz - regeldifferenzVorher) / Abtastzeit;
-                stellgrösse += DAnteil;
+                stellgrosse += DAnteil;
             }
-            Stellgrösse = stellgrösse;
+            Stellgrosse = stellgrosse;
         }
 
     }

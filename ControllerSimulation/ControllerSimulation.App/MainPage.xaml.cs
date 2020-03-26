@@ -1,8 +1,10 @@
-﻿using System;
+﻿using ControllerSimulation.App.Controllers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,9 +24,27 @@ namespace ControllerSimulation.App
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public PIDController ViewModel = new PIDController();
+
         public MainPage()
         {
             this.InitializeComponent();
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+        }
+
+        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            var toggle = sender as ToggleSwitch;
+            if(toggle.IsOn)
+            {
+                ViewModel.Start();
+            }
+            else
+            {
+                ViewModel.Stop();
+            }
+
         }
     }
 }
