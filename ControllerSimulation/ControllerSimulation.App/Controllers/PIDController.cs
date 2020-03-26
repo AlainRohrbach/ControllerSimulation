@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ControllerSimulation.App.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace ControllerSimulation.App.Controllers
     {
         public PIDController()
         {
-            timer.Elapsed += (async (object sender, System.Timers.ElapsedEventArgs e) =>
+            refreshTimer.Elapsed += (async (object sender, System.Timers.ElapsedEventArgs e) =>
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                 {
@@ -22,7 +23,7 @@ namespace ControllerSimulation.App.Controllers
         }
 
 
-        private System.Timers.Timer timer = new System.Timers.Timer()
+        private System.Timers.Timer refreshTimer = new System.Timers.Timer()
         {
             Enabled = false,
             AutoReset = true,
@@ -61,7 +62,7 @@ namespace ControllerSimulation.App.Controllers
             get => _fuhrungsgrosse;
             set { Set(ref _fuhrungsgrosse, value); }
         }
-        private double _fuhrungsgrosse;
+        private double _fuhrungsgrosse = 50;
 
 
         /// <summary>
@@ -80,7 +81,7 @@ namespace ControllerSimulation.App.Controllers
             get => _proportionalbeiwert;
             set { Set(ref _proportionalbeiwert, value); }
         }
-        private double _proportionalbeiwert;
+        private double _proportionalbeiwert = 1;
 
 
         public double Nachstellzeit
@@ -88,7 +89,7 @@ namespace ControllerSimulation.App.Controllers
             get => _nachstellzeit;
             set { Set(ref _nachstellzeit, value); }
         }
-        private double _nachstellzeit;
+        private double _nachstellzeit = 1;
 
 
         public double Vorhaltzeit
@@ -96,7 +97,7 @@ namespace ControllerSimulation.App.Controllers
             get => _vorhaltzeit;
             set { Set(ref _vorhaltzeit, value); }
         }
-        private double _vorhaltzeit;
+        private double _vorhaltzeit = 1;
 
 
         
@@ -108,12 +109,12 @@ namespace ControllerSimulation.App.Controllers
                 if(_abtastzeit != value && value >= 0.1)
                 {
                     _abtastzeit = value;
-                    timer.Interval = value * 1000;
+                    refreshTimer.Interval = value * 1000;
                     OnPropertyChanged();
                 }
             }
         }
-        private double _abtastzeit { get; set; }
+        private double _abtastzeit = 0.1;
 
 
         /// <summary>
@@ -143,7 +144,7 @@ namespace ControllerSimulation.App.Controllers
         /// </summary>
         public void Start()
         {
-            timer.Enabled = true;
+            refreshTimer.Enabled = true;
         }
 
 
@@ -152,7 +153,7 @@ namespace ControllerSimulation.App.Controllers
         /// </summary>
         public void Stop()
         {
-            timer.Enabled = false;
+            refreshTimer.Enabled = false;
             Reset();
         }
 
@@ -188,7 +189,9 @@ namespace ControllerSimulation.App.Controllers
                 double DAnteil = Vorhaltzeit * (regeldifferenz - regeldifferenzVorher) / Abtastzeit;
                 stellgrosse += DAnteil;
             }
-            Stellgrosse = stellgrosse;
+            if (stellgrosse < 0) Stellgrosse = 0;
+            else if (stellgrosse > 100) Stellgrosse = 100;
+            else Stellgrosse = stellgrosse;
         }
 
     }

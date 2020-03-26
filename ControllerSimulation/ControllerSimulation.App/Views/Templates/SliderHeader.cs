@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace ControllerSimulation.App
+namespace ControllerSimulation.App.Views.Templates
 {
     public class SliderHeader : DependencyObject
     {

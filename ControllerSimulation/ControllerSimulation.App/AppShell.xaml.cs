@@ -1,4 +1,5 @@
 ﻿using ControllerSimulation.App.Controllers;
+using ControllerSimulation.App.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,15 +23,17 @@ namespace ControllerSimulation.App
     /// <summary>
     /// Eine leere Seite, die eigenständig verwendet oder zu der innerhalb eines Rahmens navigiert werden kann.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class AppShell : Page
     {
-        public PIDController ViewModel = new PIDController();
+        public PIDController PIDController = App.ViewModel.PIDController;
+        public MainViewModel ViewModel = App.ViewModel;
 
-        public MainPage()
+        public AppShell()
         {
             this.InitializeComponent();
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
+            SharedShadow.Receivers.Add(MainPanel);
         }
 
         private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
@@ -38,11 +41,11 @@ namespace ControllerSimulation.App
             var toggle = sender as ToggleSwitch;
             if(toggle.IsOn)
             {
-                ViewModel.Start();
+                PIDController.Start();
             }
             else
             {
-                ViewModel.Stop();
+                PIDController.Stop();
             }
 
         }
