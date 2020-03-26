@@ -9,7 +9,22 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+
+    <Page.Resources>
+        <DataTemplate x:Key="SliderHeader" x:DataType="local:SliderHeader">
+            <RelativePanel>
+                <FontIcon x:Name="Icon" Glyph="{x:Bind Glyph}" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" FontSize="14" Margin="0,0,8,0" />
+                <TextBlock x:Name="Label" RelativePanel.AlignVerticalCenterWithPanel="True" Text="{x:Bind Label}" RelativePanel.RightOf="Icon" />
+                <TextBlock x:Name="Value" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignRightWithPanel="True"> <Run Text="{x:Bind Value, Mode=OneWay}"/><Run Text="{x:Bind Suffix}"/></TextBlock>
+            </RelativePanel>
+        </DataTemplate>
+
+    </Page.Resources>
+    
     <Grid>
+        
+        
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
@@ -27,50 +42,40 @@
             <NavigationViewItemSeparator Margin="-15,10,-15,10"/>
 
             <TextBlock Text="Einstellungen" Style="{StaticResource BaseTextBlockStyle}" Margin="0, 0, 0, 10"/>
-            <muxc:NumberBox AcceptsExpression="False" Value="{x:Bind ViewModel.Fuhrungsgrosse, Mode=TwoWay}" SpinButtonPlacementMode="Inline" SmallChange="1" LargeChange="10" Margin="0,6,0,6">
-                <muxc:NumberBox.Header>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                        <FontIcon Glyph="&#xE9E9;" FontSize="16" Margin="0,0,8,0"/>
-                        <TextBlock Text="Führungsgrösse"/>
-                    </StackPanel>
-                </muxc:NumberBox.Header>
-            </muxc:NumberBox>
 
-            <muxc:NumberBox AcceptsExpression="False" Value="{x:Bind ViewModel.Proportionalbeiwert, Mode=TwoWay}" SpinButtonPlacementMode="Inline" SmallChange="1" LargeChange="10" Margin="0,6,0,6">
-                <muxc:NumberBox.Header>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                        <FontIcon Glyph="&#xEB05;" FontSize="16" Margin="0,0,8,0"/>
-                        <TextBlock Text="Proportionalbeiwert"/>
-                    </StackPanel>
-                </muxc:NumberBox.Header>
-            </muxc:NumberBox>
 
-            <muxc:NumberBox AcceptsExpression="False" Value="{x:Bind ViewModel.Nachstellzeit, Mode=TwoWay}" SpinButtonPlacementMode="Inline" SmallChange="1" LargeChange="10" Margin="0,6,0,6">
-                <muxc:NumberBox.Header>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                        <FontIcon Glyph="&#xED5A;" FontSize="16" Margin="0,0,8,0"/>
-                        <TextBlock Text="Nachstellzeit [s]"/>
-                    </StackPanel>
-                </muxc:NumberBox.Header>
-            </muxc:NumberBox>
+            <Slider Value="{x:Bind ViewModel.Fuhrungsgrosse, Mode=TwoWay}" Minimum="0" Maximum="100" LargeChange="0.1" Margin="0,4,0,4" HeaderTemplate="{StaticResource SliderHeader}">
+                <Slider.Header>
+                    <local:SliderHeader Label="Führungsgrösse" Glyph="&#xE9E9;" Suffix="%" Value="{x:Bind ViewModel.Fuhrungsgrosse, Mode=OneWay}"/>
+                </Slider.Header>
+            </Slider>
 
-            <muxc:NumberBox AcceptsExpression="False" Value="{x:Bind ViewModel.Vorhaltezeit, Mode=TwoWay}" SpinButtonPlacementMode="Inline" SmallChange="1" LargeChange="10" Margin="0,6,0,6">
-                <muxc:NumberBox.Header>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                        <FontIcon Glyph="&#xED5A;" FontSize="16" Margin="0,0,8,0"/>
-                        <TextBlock Text="Vorhaltezeit [s]"/>
-                    </StackPanel>
-                </muxc:NumberBox.Header>
-            </muxc:NumberBox>
+            <Slider Value="{x:Bind ViewModel.Proportionalbeiwert, Mode=TwoWay}" Minimum="0" Maximum="10" LargeChange="0.1" Margin="0,4,0,4" HeaderTemplate="{StaticResource SliderHeader}">
+                <Slider.Header>
+                    <local:SliderHeader Label="Proportionalbeiwert" Glyph="&#xEB05;" Suffix="" Value="{x:Bind ViewModel.Proportionalbeiwert, Mode=OneWay}"/>
+                </Slider.Header>
+            </Slider>
 
-            <muxc:NumberBox AcceptsExpression="False" Value="{x:Bind ViewModel.Abtastzeit, Mode=TwoWay}" SpinButtonPlacementMode="Inline" SmallChange="1" LargeChange="10" Margin="0,6,0,6">
-                <muxc:NumberBox.Header>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                        <FontIcon Glyph="&#xE81C;" FontSize="16" Margin="0,0,8,0"/>
-                        <TextBlock Text="Abtastzeit [s]"/>
-                    </StackPanel>
-                </muxc:NumberBox.Header>
-            </muxc:NumberBox>
+            <Slider Value="{x:Bind ViewModel.Nachstellzeit, Mode=TwoWay}" Minimum="0" Maximum="10" LargeChange="0.1" Margin="0,4,0,4" HeaderTemplate="{StaticResource SliderHeader}">
+                <Slider.Header>
+                    <local:SliderHeader Label="Nachstellzeit" Glyph="&#xED5A;" Suffix="s" Value="{x:Bind ViewModel.Nachstellzeit, Mode=OneWay}"/>
+                </Slider.Header>
+            </Slider>
+
+
+            <Slider Value="{x:Bind ViewModel.Vorhaltzeit, Mode=TwoWay}" Minimum="0" Maximum="10" LargeChange="0.1" Margin="0,4,0,4" HeaderTemplate="{StaticResource SliderHeader}">
+                <Slider.Header>
+                    <local:SliderHeader Label="Vorhaltzeit" Glyph="&#xED5A;" Suffix="s" Value="{x:Bind ViewModel.Vorhaltzeit, Mode=OneWay}"/>
+                </Slider.Header>
+            </Slider>
+
+            <Slider Value="{x:Bind ViewModel.Abtastzeit, Mode=TwoWay}" Minimum="0" Maximum="10" LargeChange="0.1" Margin="0,4,0,4" HeaderTemplate="{StaticResource SliderHeader}">
+                <Slider.Header>
+                    <local:SliderHeader Label="Abtastzeit" Glyph="&#xE81C;" Suffix="s" Value="{x:Bind ViewModel.Abtastzeit, Mode=OneWay}"/>
+                </Slider.Header>
+            </Slider>
+
+
         </StackPanel>
 
         <StackPanel Grid.Column="1" Width="400">

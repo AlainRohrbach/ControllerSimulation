@@ -91,12 +91,12 @@ namespace ControllerSimulation.App.Controllers
         private double _nachstellzeit;
 
 
-        public double Vorhaltezeit
+        public double Vorhaltzeit
         {
-            get => _vorhaltezeit;
-            set { Set(ref _vorhaltezeit, value); }
+            get => _vorhaltzeit;
+            set { Set(ref _vorhaltzeit, value); }
         }
-        private double _vorhaltezeit;
+        private double _vorhaltzeit;
 
 
         
@@ -185,7 +185,7 @@ namespace ControllerSimulation.App.Controllers
             }
             if (DAnteilAktiv)
             {
-                double DAnteil = Vorhaltezeit * (regeldifferenz - regeldifferenzVorher) / Abtastzeit;
+                double DAnteil = Vorhaltzeit * (regeldifferenz - regeldifferenzVorher) / Abtastzeit;
                 stellgrosse += DAnteil;
             }
             Stellgrosse = stellgrosse;
