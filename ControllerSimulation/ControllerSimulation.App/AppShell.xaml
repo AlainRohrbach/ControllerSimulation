@@ -101,20 +101,20 @@
             <StackPanel  Width="400" VerticalAlignment="Center">
                 <Slider Value="{x:Bind PIDController.Stellgrosse, Mode=OneWay}" IsEnabled="False" Minimum="0" Maximum="100" StepFrequency="0.1" Margin="0,4,0,4" HeaderTemplate="{StaticResource SliderHeader}">
                     <Slider.Header>
-                        <templates:SliderHeader Label="Input Ventil" Glyph="&#xE81C;" Suffix="%" Value="{x:Bind PIDController.Stellgrosse, Mode=OneWay}"/>
+                        <templates:SliderHeader Label="Input Ventil" Glyph="&#xE898;" Suffix="%" Value="{x:Bind PIDController.Stellgrosse, Mode=OneWay}"/>
                     </Slider.Header>
                 </Slider>
 
 
                 <Slider Value="{x:Bind PIDController.Regelgrosse, Mode=TwoWay}" Minimum="0" Maximum="100" StepFrequency="0.1" Margin="0,4,0,4" HeaderTemplate="{StaticResource SliderHeader}">
                     <Slider.Header>
-                        <templates:SliderHeader Label="Regelstrecke" Glyph="&#xE81C;" Suffix="%" Value="{x:Bind PIDController.Regelgrosse, Mode=OneWay}"/>
+                        <templates:SliderHeader Label="Regelstrecke" Glyph="&#xE9D9;" Suffix="%" Value="{x:Bind PIDController.Regelgrosse, Mode=OneWay}"/>
                     </Slider.Header>
                 </Slider>
 
                 <Slider Value="{x:Bind ViewModel.OutputLevel, Mode=TwoWay}" Minimum="0" Maximum="80" StepFrequency="0.1" Margin="0,4,0,4" HeaderTemplate="{StaticResource SliderHeader}">
                     <Slider.Header>
-                        <templates:SliderHeader Label="Output Ventil" Glyph="&#xE81C;" Suffix="%" Value="{x:Bind ViewModel.OutputLevel, Mode=OneWay}"/>
+                        <templates:SliderHeader Label="Output Ventil" Glyph="&#xE896;" Suffix="%" Value="{x:Bind ViewModel.OutputLevel, Mode=OneWay}"/>
                     </Slider.Header>
                 </Slider>
                 
