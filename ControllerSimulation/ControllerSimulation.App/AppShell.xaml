@@ -6,8 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:converters="using:ControllerSimulation.App.Views.Converters"
     xmlns:templates="using:ControllerSimulation.App.Views.Templates"
+    xmlns:converters="using:ControllerSimulation.App.Views.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -94,11 +94,11 @@
 
         <Grid Grid.Column="1" x:Name="MainPanel">
 
-            
-            
-            
-            <StackPanel  Width="400" VerticalAlignment="Center">
 
+
+
+
+            <StackPanel  Width="400" VerticalAlignment="Center">
                 <Slider Value="{x:Bind PIDController.Stellgrosse, Mode=OneWay}" IsEnabled="False" Minimum="0" Maximum="100" StepFrequency="0.1" Margin="0,4,0,4" HeaderTemplate="{StaticResource SliderHeader}">
                     <Slider.Header>
                         <templates:SliderHeader Label="Input Ventil" Glyph="&#xE81C;" Suffix="%" Value="{x:Bind PIDController.Stellgrosse, Mode=OneWay}"/>
@@ -120,6 +120,7 @@
                 
                 
             </StackPanel>
+            
 
         </Grid>
         

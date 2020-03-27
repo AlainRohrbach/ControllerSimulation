@@ -72,7 +72,11 @@ namespace ControllerSimulation.App.ViewModels
 
         private void Refresh()
         {
-            PIDController.Regelgrosse += (PIDController.Stellgrosse - OutputLevel) * IOQuanity / 10;
+            double reservoir = PIDController.Regelgrosse;
+            reservoir += (PIDController.Stellgrosse - OutputLevel) * IOQuanity / 10;
+            if (reservoir < 0) reservoir = 0;
+            else if (reservoir > 100) reservoir = 100;
+            PIDController.Regelgrosse = reservoir;
         }
     }
 }
