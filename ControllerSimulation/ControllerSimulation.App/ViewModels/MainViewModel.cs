@@ -1,5 +1,4 @@
 ﻿using ControllerSimulation.App.Controllers;
-using ControllerSimulation.App.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,23 +32,6 @@ namespace ControllerSimulation.App.ViewModels
 
         public PIDController PIDController { get; set; } = new PIDController();
 
-        public double OutputQuantity
-        {
-            get => _outputQuantity;
-            set { Set(ref _outputQuantity, value); }
-        }
-        private double _outputQuantity = 0;
-
-
-        public double InputQunatity
-        {
-            get => _inputQuantity;
-            set { Set(ref _inputQuantity, value); }
-        }
-        private double _inputQuantity = 0;
-
-
-
 
         public double OutputLevel
         {
@@ -57,16 +39,6 @@ namespace ControllerSimulation.App.ViewModels
             set { Set(ref _outputLevel, value); }
         }
         private double _outputLevel = 0;
-
-
-        public double ReservoirLevel
-        {
-            get => _reservoirLevel;
-            set { Set(ref _reservoirLevel, value); }
-        }
-        private double _reservoirLevel;
-
-        public double reservoirCapacity = 1000; // [l]
 
         public double IOQuanity = 1; // [l/s]
 

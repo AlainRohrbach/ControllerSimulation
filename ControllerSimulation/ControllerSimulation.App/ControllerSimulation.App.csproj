@@ -121,7 +121,6 @@
     </Compile>
     <Compile Include="ViewModels\BindableBase.cs" />
     <Compile Include="Controllers\PIDController.cs" />
-    <Compile Include="Elements\IElement.cs" />
     <Compile Include="AppShell.xaml.cs">
       <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
